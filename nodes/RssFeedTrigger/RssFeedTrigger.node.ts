@@ -30,7 +30,7 @@ export class RssFeedTrigger implements INodeType {
 				displayName: 'Feed URL',
 				name: 'feedUrl',
 				type: 'string',
-				default: '',
+				default: 'https://blog.n8n.io/rss/',
 				required: true,
 				description: 'URL of the RSS feed to poll',
 			},
@@ -43,6 +43,7 @@ export class RssFeedTrigger implements INodeType {
 
 		const now = moment().utc().format();
 		const startDate = (pollData.lastTimeChecked as string) || now;
+
 		const endDate = now;
 
 		try {
@@ -70,6 +71,10 @@ export class RssFeedTrigger implements INodeType {
 
 			// For now we just take the items and ignore everything else
 			if (feed.items) {
+				// If test mode just return the first item
+				if (this.getMode() === 'manual') {
+					return [this.helpers.returnJsonArray(feed.items[0])];
+				}
 				feed.items.forEach((item) => {
 					// @ts-ignore
 					if (Date.parse(item.isoDate) >= Date.parse(startDate)) {
@@ -77,7 +82,6 @@ export class RssFeedTrigger implements INodeType {
 						returnData.push(item);
 					}
 				});
-
 			}
 			pollData.lastTimeChecked = endDate;
 			if (Array.isArray(returnData) && returnData.length !== 0) {

@@ -7,7 +7,7 @@ This trigger node will get any items that have a published date that is after th
 [n8n](https://n8n.io/) is a [fair-code licensed](https://docs.n8n.io/reference/license/) workflow automation platform.
 
 [Installation](#installation)  
-[Version history](#version-history)  <!-- delete if not using this section -->  
+[Version history](#version-history) 
 
 ## Installation
 
@@ -19,4 +19,5 @@ Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes
 
 ## Version history
 
+0.1.1 - When running manually it will return the first item for the feed
 0.1.0 - Initial Release
