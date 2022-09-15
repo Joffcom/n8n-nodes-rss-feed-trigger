@@ -1,0 +1,131 @@
+{
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "8d9f1bf4-5732-461f-a902-78e9cdd440b1",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        220,
+        220
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "pollTimes": {
+          "item": [
+            {
+              "mode": "everyX",
+              "value": 30,
+              "unit": "minutes"
+            }
+          ]
+        },
+        "feedUrl": "https://wtf1.com/feed/"
+      },
+      "id": "f806d599-a54f-4962-bb54-cef44974aff2",
+      "name": "RSS Feed Trigger",
+      "type": "n8n-nodes-rss-feed-trigger.rssFeedTrigger",
+      "typeVersion": 1,
+      "position": [
+        480,
+        140
+      ]
+    },
+    {
+      "parameters": {
+        "oneTemplate": true,
+        "template": "*:new: WTF1 Updates :new:*\n\n{{#each items}}\n*<{{link}}|{{title}}>* - {{pubDate}}\n{{contentSnippet}}\n\n\n{{/each}}"
+      },
+      "id": "93149dd0-f7a8-4a66-9c6d-8bc41aa15502",
+      "name": "DocumentGenerator",
+      "type": "n8n-nodes-document-generator.DocumentGenerator",
+      "typeVersion": 1,
+      "position": [
+        700,
+        260
+      ],
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "channel": "rss-feeds",
+        "text": "={{ $json[\"text\"] }}",
+        "otherOptions": {
+          "mrkdwn": true,
+          "unfurl_links": false,
+          "unfurl_media": false
+        },
+        "attachments": []
+      },
+      "id": "2d98a964-f444-4c07-bc58-440098d83ba9",
+      "name": "Slack",
+      "type": "n8n-nodes-base.slack",
+      "typeVersion": 1,
+      "position": [
+        900,
+        140
+      ],
+      "credentials": {
+        "slackApi": {
+          "id": "39",
+          "name": "Slack Access Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "functionCode": "// Create our Slack message\nlet text = \"*:new: WTF1 Updates :new:*\\n\\n\";\n\n// Loop the input items\nfor (item of items) {\n  text += `*<${item.json.link}|${item.json.title}>* - ${item.json.pubDate}\\n${item.json.contentSnippet}\\n\\n`;\n}\n\n// Return our message\nreturn [{json: {text}}];"
+      },
+      "name": "Build our message",
+      "type": "n8n-nodes-base.function",
+      "position": [
+        700,
+        20
+      ],
+      "typeVersion": 1,
+      "id": "b1827057-fee9-4100-b73a-eba8711baa9a"
+    },
+    {
+      "parameters": {
+        "content": "This workflow will post updates from wtf1.com to Slack every 30 minutes.\n\nIf you have the [Document Generator](https://www.npmjs.com/package/n8n-nodes-document-generator) node installed you can connect that instead of using the function node.",
+        "height": 308,
+        "width": 332
+      },
+      "id": "67264483-e3cc-4306-87be-29dc75dd1d5d",
+      "name": "Note",
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        128,
+        60
+      ]
+    }
+  ],
+  "connections": {
+    "RSS Feed Trigger": {
+      "main": [
+        [
+          {
+            "node": "Build our message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build our message": {
+      "main": [
+        [
+          {
+            "node": "Slack",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}
