@@ -1,14 +1,13 @@
-import moment from 'moment';
-import { IPollFunctions } from 'n8n-core';
-
 import {
 	IDataObject,
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
+	IPollFunctions,
 	NodeOperationError,
 } from 'n8n-workflow';
 import Parser from 'rss-parser';
+import moment from 'moment';
 
 export class RssFeedTrigger implements INodeType {
 	description : INodeTypeDescription = {

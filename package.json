@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-rss-feed-trigger",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Trigger n8n workflows from an RSS Feed",
   "keywords": [
     "n8n-community-node-package",
