@@ -16,6 +16,8 @@ Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes
 ## Resources
 
 * [n8n community nodes documentation](https://docs.n8n.io/integrations/community-nodes/)
+* Example Workflows can be found in the _examples folder
+  * rss_to_slack.json - This posts updates from wtf1.com to Slack, It has a function node to build the Slack message but also has an option to use the [Document Generator](https://www.npmjs.com/package/n8n-nodes-document-generator) node
 
 ## Version history
 
