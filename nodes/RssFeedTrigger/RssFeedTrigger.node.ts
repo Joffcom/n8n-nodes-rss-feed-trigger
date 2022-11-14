@@ -88,7 +88,7 @@ export class RssFeedTrigger implements INodeType {
 			}
 			return null;
 		} catch (error) {
-			return [this.helpers.returnJsonArray(error)];
+			return null;
 		}
 	}
 }
