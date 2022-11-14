@@ -21,6 +21,7 @@ Follow the [installation guide](https://docs.n8n.io/integrations/community-nodes
 
 ## Version history
 
-0.1.2 - Fixed activation issue \
-0.1.1 - When running manually it will return the first item for the feed \
+0.1.3 - Bumped versions and removed error output to match standard nodes
+0.1.2 - Fixed activation issue
+0.1.1 - When running manually it will return the first item for the feed
 0.1.0 - Initial Release
